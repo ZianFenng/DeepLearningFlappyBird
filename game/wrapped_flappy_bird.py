@@ -155,7 +155,7 @@ def getRandomPipePair():
     # gapYs = [20, 30, 40, 50, 60, 70, 80, 90]
     # index = random.randint(0, len(gapYs) - 1)
     # gapY = gapYs[index]
-    gapY = random.randint(20, 90)
+    gapY = random.randint(10, 200)
 
     gapY += int(BASEY * 0.2)  # new pipe y position, should be higher than the base
     pipeX = SCREENWIDTH + 10  # new pipe x position, should be out of screen

@@ -13,15 +13,16 @@ from collections import deque
 GAME = 'bird'  # the name of the game being played for log files
 ACTIONS = 2  # number of valid actions
 GAMMA = 0.99  # decay rate of past observations
-OBSERVE = 100000.  # timesteps to observe before training
-EXPLORE = 2000000.  # frames over which to anneal epsilon
+OBSERVE = 1000.  # timesteps to observe before training
+EXPLORE = 20000.  # frames over which to anneal epsilon
 FINAL_EPSILON = 0.0001  # final value of epsilon
-INITIAL_EPSILON = 0.0001  # starting value of epsilon
+INITIAL_EPSILON = 0.001  # starting value of epsilon
 REPLAY_MEMORY = 50000  # number of previous transitions to remember
 BATCH = 32  # size of minibatch
 FRAME_PER_ACTION = 1
 
 
+""" tensorflow functions """
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.01)
     return tf.Variable(initial)
@@ -40,6 +41,7 @@ def max_pool_2x2(x):
     return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
 
 
+""" conv network to process image """
 def createNetwork():
     """ create a CNN """
     # network weights
@@ -193,7 +195,7 @@ def trainNetwork(input, readout, h_fc1, sess):
             state = "explore"
         else:
             state = "train"
-        print("TIMESTEP:", t, ", STATE", state, ", EPSILON:", epsilon, ", ACTION:", action_index, ", REWARD:", r_t, ", Q_MAX: %e" % np.max(readout_t))
+        print("TIMESTEP:", t, ", STATE", state, ", EPSILON: %e" % epsilon, ", ACTION:", action_index, ", REWARD:", r_t, ", Q_MAX: %e" % np.max(readout_t))
 
         # write info to files
         if t % 10000 <= 100:
